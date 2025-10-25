@@ -1,0 +1,4 @@
+﻿event_time,event_type,product_id,category_id,category_code,brand,price,user_id,user_session,step
+01:12.0,view,4804055,2.05301E+18,electronics.audio.headphone,apple,188.73,518964198,75cc2bbb-f9b6-4333-b949-7a6d6b7ecdae,1
+03:57.0,view,4804056,2.05301E+18,electronics.audio.headphone,apple,161.93,518964198,75cc2bbb-f9b6-4333-b949-7a6d6b7ecdae,2
+05:56.0,view,4802036,2.05301E+18,electronics.audio.headphone,apple,171.56,518964198,75cc2bbb-f9b6-4333-b949-7a6d6b7ecdae,3

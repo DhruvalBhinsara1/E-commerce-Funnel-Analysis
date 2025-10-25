@@ -69,7 +69,7 @@ Deleted **68673** records where price was *0* or in negative.
     -   **Python:** Trend analysis: Load data into pandas, use datetime functions to analyze daily/hourly event patterns, create plots with matplotlib/seaborn
 -   **Checks:** Event type frequencies, temporal patterns, popular categories/brands, user engagement metrics, data quality issues
 
-### 4. Funnel Mapping
+### [x] 4. Funnel Mapping
 
 -   **Tech Used:** SQL Server (T-SQL with window functions and CTEs)
 -   **Steps:**
