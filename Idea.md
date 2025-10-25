@@ -78,14 +78,38 @@ Deleted **68673** records where price was *0* or in negative.
     -   Identify conversion paths and drop-offs
 -   **Checks:** Correct session grouping, logical event sequences, funnel progression rates
 
-### 5. Metrics Calculation
+### [x] 5. Metrics Calculation
 
 -   **Tech Used:** SQL Server (T-SQL aggregations), Python (pandas for advanced calculations)
 -   **Steps:**
-    -   Calculate conversion rates: `SELECT COUNT(DISTINCT CASE WHEN event_type = 'purchase' THEN user_session END) * 1.0 / COUNT(DISTINCT user_session) FROM ecommerce_events`
-    -   Compute drop-off rates between stages
-    -   Revenue analysis: `SELECT SUM(price) FROM ecommerce_events WHERE event_type = 'purchase'`
-    -   Segment metrics by category/brand/user type
+    -   **Calculate conversion rates (SQL):**
+        
+        ```sql
+        SELECT COUNT(DISTINCT CASE WHEN event_type = 'purchase' THEN user_session END) * 1.0 / COUNT(DISTINCT user_session) AS conversion_rateFROM dbo.[2019-Oct]
+        ```
+        
+    -   **Revenue analysis (SQL):**
+        
+        ```sql
+        SELECT SUM(price) AS total_revenue FROM dbo.[2019-Oct] WHERE event_type = 'purchase'
+        ```
+        
+    -   **Drop-off rates and advanced metrics (Python):**
+        
+        ```python
+        import pandas as pdimport pyodbcconn = pyodbc.connect(    'DRIVER={ODBC Driver 17 for SQL Server};'    'SERVER=localhost;'    'DATABASE=Funnel_Purchases;'    'Trusted_Connection=yes;')df = pd.read_sql("SELECT user_session, event_type FROM dbo.[2019-Oct]", conn)conn.close()# Conversion ratesessions = df['user_session'].nunique()purchases = df[df['event_type'] == 'purchase']['user_session'].nunique()conversion_rate = purchases / sessions if sessions > 0 else 0# Drop-off ratesfunnel = df.groupby('user_session')['event_type'].agg(lambda x: set(x)).reset_index()viewed = funnel['event_type'].apply(lambda x: 'view' in x).sum()carted = funnel['event_type'].apply(lambda x: 'cart' in x).sum()purchased = funnel['event_type'].apply(lambda x: 'purchase' in x).sum()dropoff_view_to_cart = 1 - (carted / viewed) if viewed > 0 else 0dropoff_cart_to_purchase = 1 - (purchased / carted) if carted > 0 else 0# Revenue analysisconn = pyodbc.connect(    'DRIVER={ODBC Driver 17 for SQL Server};'    'SERVER=localhost;'    'DATABASE=Funnel_Purchases;'    'Trusted_Connection=yes;')rev_df = pd.read_sql("SELECT price FROM dbo.[2019-Oct] WHERE event_type = 'purchase'", conn)conn.close()total_revenue = rev_df['price'].sum()print(f"Conversion rate: {conversion_rate:.2%}")print(f"Drop-off (view→cart): {dropoff_view_to_cart:.2%}")print(f"Drop-off (cart→purchase): {dropoff_cart_to_purchase:.2%}")print(f"Total revenue: ${total_revenue:,.2f}")
+        ```
+        
+    -   **Segment metrics by category/brand/user type (SQL/Python):**
+        
+        ```sql
+        SELECT category_code, COUNT(*) AS events, SUM(CASE WHEN event_type = 'purchase' THEN 1 ELSE 0 END) AS purchasesFROM dbo.[2019-Oct]GROUP BY category_codeORDER BY purchases DESC
+        ```
+        
+        ```python
+        # Example: Conversion rate by categoryconn = pyodbc.connect(    'DRIVER={ODBC Driver 17 for SQL Server};'    'SERVER=localhost;'    'DATABASE=Funnel_Purchases;'    'Trusted_Connection=yes;')df = pd.read_sql("SELECT category_code, user_session, event_type FROM dbo.[2019-Oct]", conn)conn.close()conv_by_cat = df[df['event_type'] == 'purchase'].groupby('category_code')['user_session'].nunique() / df.groupby('category_code')['user_session'].nunique()print(conv_by_cat.sort_values(ascending=False))
+        ```
+        
 -   **Checks:** Accurate percentages, revenue totals, segment comparisons
 
 ### 6. Visualization & Reporting
