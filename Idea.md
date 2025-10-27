@@ -81,7 +81,9 @@ Deleted **68673** records where price was *0* or in negative.
 ### [x] 5. Metrics Calculation
 
 -   **Tech Used:** SQL Server (T-SQL aggregations), Python (pandas for advanced calculations)
+    
 -   **Steps:**
+    
     -   **Calculate conversion rates (SQL):**
         
         ```sql
@@ -111,8 +113,9 @@ Deleted **68673** records where price was *0* or in negative.
         ```
         
 -   **Checks:** Accurate percentages, revenue totals, segment comparisons
+    
 
-### 6. Visualization & Reporting
+### [x] 6. Visualization & Reporting
 
 -   **Tech Used:** Tableau/Power BI (for dashboards), Python (matplotlib, seaborn, plotly in Jupyter)
 -   **Steps:**
@@ -122,16 +125,7 @@ Deleted **68673** records where price was *0* or in negative.
     -   Design interactive dashboards with filters for categories/brands
 -   **Checks:** Visual accuracy, interactivity, clear insights presentation
 
-### 7. Insights & Recommendations
-
--   **Tech Used:** Analysis of metrics and visualizations
--   **Steps:**
-    -   Identify bottlenecks in the funnel
-    -   Compare high vs. low-performing segments
-    -   Formulate actionable recommendations (e.g., optimize cart flow for low-conversion categories)
--   **Checks:** Business relevance, feasibility of suggestions
-
-## Deliverables
+### Deliverables
 
 -   SSMS import configuration and table schema
 -   Data validation queries
